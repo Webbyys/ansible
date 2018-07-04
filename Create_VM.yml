@@ -1,0 +1,32 @@
+---
+- name : Automatize vmware
+  hosts: localhost
+  
+  tasks:
+  - name: Create VM
+    local_action:
+      module: vmware_guest
+      hostname: 172.180.0.200
+      username: administrator@vsphere.local
+      password: Espoir15
+      validate_certs: no
+      name: wissem.djari
+      state: poweredoff
+      folder: /
+      datacenter: timothe.robles
+      guest_id: centos64Guest
+      disk:
+      - size_gb: "10"
+        type: thin
+        datastore: datastore1
+      networks:
+      - name: VM Network
+        type: dhcp
+      hardware:
+        memory_mb: "512"
+        num_cpus: "1"
+        scsi: paravirtual
+        hotadd_cpu: True
+        hotremove_cpu: True
+        hotadd_memory: False
+    tags: vm

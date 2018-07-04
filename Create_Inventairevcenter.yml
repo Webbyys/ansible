@@ -1,0 +1,45 @@
+---
+- name : Automatize vmware
+  hosts: localhost
+
+  tasks:
+  - name: Create Datacenter
+    local_action:
+      module: vmware_datacenter
+      hostname: 172.180.0.200
+      username: administrator@vsphere.local
+      password: Espoir15
+      datacenter_name: timothe.robles
+      state: present
+      validate_certs: no
+    tags: dc
+
+  - name: Create Cluster with HA enabled
+    local_action:
+      module: vmware_cluster
+      hostname: 172.180.0.200
+      username: administrator@vsphere.local
+      password: Espoir15
+      datacenter_name: timothe.robles
+      cluster_name: py.martin
+      enable_ha: yes
+      enable_drs: yes
+      enable_vsan: no
+      validate_certs: no
+    tags: cluster
+
+  - name: Add ESXi Host to vCenter
+    local_action:
+      module: vmware_host
+      hostname: 172.180.0.200
+      username: administrator@vsphere.local
+      password: Espoir15
+      datacenter_name: timothe.robles
+      cluster_name: py.martin
+      esxi_hostname: 172.180.0.150
+      esxi_username: root
+      esxi_password: BtsSIO2015*
+      state: present
+      validate_certs: no
+   
+    tags: hosts
